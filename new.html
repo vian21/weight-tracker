@@ -57,7 +57,7 @@
         let weight = parseFloat(document.getElementById('weight').value);
 
         const date = new Date();
-        const time = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+        const time = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
         let data = getData();
         data.push([time, weight])
