@@ -7,7 +7,7 @@ var PRECACHE_URLS = [
     'manifest.json',
     'new.html',
     'main.js',
-    'https://cdn.jsdelivr.net/npm/chart.js'
+    'chart.js'
 ];
 
 // The install handler takes care of precaching the resources we always need.
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
                 }
 
                 return caches.open(RUNTIME).then(cache => {
-                    return fetch(event.request).then(response => {
+                    return fetch(event.request,{ mode: 'no-cors' }).then(response => {
                         // Put a copy of the response in the runtime cache.
                         return cache.put(event.request, response.clone()).then(() => {
                             return response;
