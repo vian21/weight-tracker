@@ -1,140 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Progressive Web Application that works offline and can be installed on any device with a browser. The app stores the user’s weight data in
-    local Storage and uses Chart.js to plot the data on a graph to show a trend in weight gain or loss.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Progressive Web Application that works offline and can be installed on any device with a browser. The app stores the user’s weight data in
+    local Storage and uses Chart.js to plot the data on a graph to show a trend in weight gain or loss."
+    />
     <title>Weight</title>
 
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json" />
 
-    <meta name="theme-color" content="#4BCFFA">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#4BCFFA" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link href="icon.png" sizes="225x225" rel="apple-touch-startup-image" />
-    <meta name="theme-color" content="#4BCFFA">
-    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#4BCFFA" />
+    <link rel="apple-touch-icon" href="icon.png" />
 
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then((reg) => {
-                    // registration worked
-                    console.log('Registration succeeded. Scope is ' + reg.scope);
-                }).catch((error) => {
-                    // registration failed
-                    console.log('Registration failed with ' + error);
-                });
-        }
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then((reg) => {
+            // registration worked
+            console.log("Registration succeeded. Scope is " + reg.scope);
+          })
+          .catch((error) => {
+            // registration failed
+            console.log("Registration failed with " + error);
+          });
+      }
     </script>
 
     <script src="main.js"></script>
     <script src="chart.js"></script>
+  </head>
 
-</head>
-
-<style>
+  <style>
     #chart {
-        margin-top: 100px;
+      margin-top: 100px;
     }
 
     button {
-        margin-top: 10px;
-        border-radius: 40px;
-        border: 0;
-        font-size: 16px;
-        padding: 12px;
-        width: 80%;
-        background-color: #3dc7f5;
-        color: white;
-        text-decoration: none;
+      margin-top: 10px;
+      border-radius: 40px;
+      border: 0;
+      font-size: 16px;
+      padding: 12px;
+      width: 80%;
+      background-color: #3dc7f5;
+      color: white;
+      text-decoration: none;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <center>
-        <a href="new.html">
-            <button id="new">New</button>
-        </a>
-        <div>
-            <canvas id="chart"></canvas>
-        </div>
+      <a href="new.html">
+        <button id="new">New</button>
+      </a>
+      <div>
+        <canvas id="chart"></canvas>
+      </div>
 
-        <br><br><br>
+      <br /><br /><br />
 
-        <button onclick="deleteLastRecord()">Delete Last</button>
-        <button onclick="deleteFirstRecord()">Delete First</button>
+      <button onclick="deleteLastRecord()">Delete Last</button>
+      <button onclick="deleteFirstRecord()">Delete First</button>
     </center>
-</body>
+  </body>
 
-<script>
+  <script>
     let labels = [];
     let weight = [];
 
     const weightData = getData();
     weightData.map((data, key) => {
-        labels.push(data[0]);
-        weight.push(data[1]);
-    })
+      labels.push(data[0]);
+      weight.push(data[1]);
+    });
 
     const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Weight',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: weight,
-        }]
-    }
+      labels: labels,
+      datasets: [
+        {
+          label: "Weight",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderColor: "rgb(255, 99, 132)",
+          data: weight,
+        },
+      ],
+    };
 
     const config = {
-        type: 'line',
-        data: data,
+      type: "line",
+      data: data,
+    };
 
-    }
-
-    const chart = new Chart(document.getElementById('chart'),
-        config,
-    )
+    const chart = new Chart(document.getElementById("chart"), config);
 
     function deleteLastRecord() {
-        let data = getData();
+      let data = getData();
 
-        //remove last record
-        data.pop();
+      //remove last record
+      data.pop();
 
-        if (updateStorage(data)) {
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            chart.update()
-            return true;
-        } else {
-            return false;
-        }
+      if (updateStorage(data)) {
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+          dataset.data.pop();
+        });
+        chart.update();
+        return true;
+      } else {
+        return false;
+      }
     }
 
     function deleteFirstRecord() {
-        let data = getData();
+      let data = getData();
 
-        //remove last record
-        data.shift();
+      //remove last record
+      data.shift();
 
-        if (updateStorage(data)) {
-            chart.data.labels.shift();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.shift();
-            });
-            chart.update()
-            return true;
-        } else {
-            return false;
-        }
+      if (updateStorage(data)) {
+        chart.data.labels.shift();
+        chart.data.datasets.forEach((dataset) => {
+          dataset.data.shift();
+        });
+        chart.update();
+        return true;
+      } else {
+        return false;
+      }
     }
-</script>
-
+  </script>
 </html>

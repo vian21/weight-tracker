@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Export data</title>
+    <script src="main.js"></script>
+    <style>
+      body {
+        width: 100%;
+        margin: 0;
+      }
+      button {
+        margin-top: 10px;
+        border-radius: 40px;
+        border: 0;
+        font-size: 16px;
+        padding: 12px;
+        width: 80%;
+        background-color: #3dc7f5;
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="data" style="width: 90%; margin: auto; padding: 10px"></div>
+
+    <center>
+      <button onclick="copy()">Copy</button>
+    </center>
+  </body>
+
+  <script>
+    window.onload = () => {
+      const data = getData();
+      document.querySelector(".data").innerHTML = JSON.stringify(data);
+    };
+
+    function copy() {
+      var range = document.createRange();
+      range.selectNode(document.querySelector(".data"));
+
+      window.getSelection().removeAllRanges(); // clear current selection
+      window.getSelection().addRange(range); // to select text
+      document.execCommand("copy");
+      window.getSelection().removeAllRanges(); // to deselect
+
+      alert("Copied to clipboard");
+    }
+  </script>
+</html>
