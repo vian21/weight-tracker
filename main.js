@@ -21,5 +21,4 @@ function getData() {
  */
 function updateStorage(data) {
   localStorage.setItem("weightData", JSON.stringify(data));
-  return true;
 }

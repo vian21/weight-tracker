@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Import data</title>
+
     <script src="main.js"></script>
+
     <style>
       body {
         width: 100%;
@@ -31,7 +33,7 @@
     <center>
       <textarea id="data" cols="30" rows="10"></textarea>
 
-      <button onclick="save()">Import</button>
+      <button onclick="save(event)">Import</button>
     </center>
   </body>
 
@@ -41,13 +43,20 @@
       data = getData();
     };
 
-    function save() {
+    function save(event) {
+      event.preventDefault();
+
       const newData = document.querySelector("#data").value;
+
       try {
         const parsedData = JSON.parse(newData);
         data.push(...parsedData);
 
         updateStorage(data);
+
+        document.querySelector("#data").value = "";
+
+        location.href = "index.html";
         alert("Data imported");
       } catch {
         alert("Invalid data");

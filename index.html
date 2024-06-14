@@ -37,31 +37,32 @@
 
     <script src="main.js"></script>
     <script src="chart.js"></script>
+
+    <style>
+      #chart {
+        margin-top: 100px;
+      }
+
+      button {
+        margin-top: 10px;
+        border-radius: 40px;
+        border: 0;
+        font-size: 16px;
+        padding: 12px;
+        width: 80%;
+        background-color: #3dc7f5;
+        color: white;
+        text-decoration: none;
+      }
+    </style>
   </head>
-
-  <style>
-    #chart {
-      margin-top: 100px;
-    }
-
-    button {
-      margin-top: 10px;
-      border-radius: 40px;
-      border: 0;
-      font-size: 16px;
-      padding: 12px;
-      width: 80%;
-      background-color: #3dc7f5;
-      color: white;
-      text-decoration: none;
-    }
-  </style>
 
   <body>
     <center>
       <a href="new.html">
         <button id="new">New</button>
       </a>
+
       <div>
         <canvas id="chart"></canvas>
       </div>
@@ -70,7 +71,13 @@
 
       <button onclick="deleteLastRecord()">Delete Last</button>
       <button onclick="deleteFirstRecord()">Delete First</button>
-      <a href="export.html">export</a>
+
+      <a href="export.html">
+        <button>Export</button>
+      </a>
+      <a href="import.html">
+        <button>Import</button>
+      </a>
     </center>
   </body>
 
@@ -109,16 +116,13 @@
       //remove last record
       data.pop();
 
-      if (updateStorage(data)) {
-        chart.data.labels.pop();
-        chart.data.datasets.forEach((dataset) => {
-          dataset.data.pop();
-        });
-        chart.update();
-        return true;
-      } else {
-        return false;
-      }
+      updateStorage(data);
+
+      chart.data.labels.pop();
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+      });
+      chart.update();
     }
 
     function deleteFirstRecord() {
@@ -127,16 +131,13 @@
       //remove last record
       data.shift();
 
-      if (updateStorage(data)) {
-        chart.data.labels.shift();
-        chart.data.datasets.forEach((dataset) => {
-          dataset.data.shift();
-        });
-        chart.update();
-        return true;
-      } else {
-        return false;
-      }
+      updateStorage(data);
+
+      chart.data.labels.shift();
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.shift();
+      });
+      chart.update();
     }
   </script>
 </html>
